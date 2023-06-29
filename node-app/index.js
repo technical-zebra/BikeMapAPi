@@ -1,54 +1,59 @@
-let appInsights = require('applicationinsights');
-appInsights.start();
-const express = require('express')
+const appInsights = require("applicationinsights");
+appInsights
+  .setup(
+    "InstrumentationKey=07a5bff7-18e6-49f9-b926-3bf5c03e1712;IngestionEndpoint=https://eastasia-0.in.applicationinsights.azure.com/;LiveEndpoint=https://eastasia.livediagnostics.monitor.azure.com/"
+  )
+  .start();
 
-const app = express()
-const port = process.env.PORT || 3001; // Use the assigned port or 3000 as fallback
+const express = require("express");
+const fetch = require("node-fetch");
 
-
+const app = express();
+const port = process.env.PORT || 3001;
 
 const fetchData = async (Lat, Long, Dist) => {
   try {
-    const url = 'http://datamall2.mytransport.sg/ltaodataservice/BicycleParkingv2';
+    const url =
+      "http://datamall2.mytransport.sg/ltaodataservice/BicycleParkingv2";
     const params = new URLSearchParams({
       Lat,
       Long,
-      Dist
-    })
+      Dist,
+    });
     const headers = {
-      'AccountKey': 'BIYCkkcYT/eTc9whKEPSEQ==',
-    }
+      AccountKey: "BIYCkkcYT/eTc9whKEPSEQ==",
+    };
 
     const response = await fetch(`${url}?${params.toString()}`, {
       headers,
-    })
-    const data = await response.json()
-    allData = data
-    return data
+    });
+    const data = await response.json();
+    allData = data;
+    return data;
   } catch (error) {
-    console.error(error)
-    throw error
+    ø;
+    console.error(error);
+    throw error;
   }
 };
 
-// Add CORS headers to allow cross-origin requests
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  next()
-})
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
-app.get('/api/get', async (req, res) => {
-  const { Lat, Long, Dist } = req.query
+app.get("/api/get", async (req, res) => {
+  const { Lat, Long, Dist } = req.query;
   try {
-    const data = await fetchData(Lat, Long, Dist)
+    const data = await fetchData(Lat, Long, Dist);
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' })
+    res.status(500).json({ error: "An error occurred" });
   }
-})
+});
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+  console.log(`Server running on port ${port}`);
+});
