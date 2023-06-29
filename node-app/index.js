@@ -31,7 +31,6 @@ const fetchData = async (Lat, Long, Dist) => {
     allData = data;
     return data;
   } catch (error) {
-    ø;
     console.error(error);
     throw error;
   }
