@@ -1,7 +1,11 @@
+let appInsights = require('applicationinsights');
+appInsights.start();
 const express = require('express')
 
 const app = express()
 const port = process.env.PORT || 3001; // Use the assigned port or 3000 as fallback
+
+
 
 const fetchData = async (Lat, Long, Dist) => {
   try {
