@@ -1,10 +1,3 @@
-const appInsights = require("applicationinsights");
-appInsights
-  .setup(
-    "InstrumentationKey=07a5bff7-18e6-49f9-b926-3bf5c03e1712;IngestionEndpoint=https://eastasia-0.in.applicationinsights.azure.com/;LiveEndpoint=https://eastasia.livediagnostics.monitor.azure.com/"
-  )
-  .start();
-
 const express = require("express");
 const fetch = require("node-fetch");
 
